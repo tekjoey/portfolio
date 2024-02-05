@@ -4,6 +4,8 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
+	"strings"
 )
 
 const aConst int = 64
@@ -11,10 +13,18 @@ const aConst int = 64
 var outSide string = "this was crteated outside a function"
 
 func main() {
+	sectionDelimiter("VARS")
 	vars()
+	sectionDelimiter("INPUTS")
 	input()
 }
 
+func sectionDelimiter(name string) {
+	fmt.Println("")
+	fmt.Printf("---%s---", name)
+	fmt.Println("")
+
+}
 func vars() {
 	// Explicent variable typing, telling the compialer exactly what kind of value to expect
 	var aString string = "Go Var"
@@ -57,4 +67,16 @@ func input() {
 	// using _ as a variable name creates a 'null' variable
 	input, _ := reader.ReadString('\n')
 	fmt.Println("You entered:", input)
+
+	fmt.Print("Enter a number: ")
+	numInput, _ := reader.ReadString('\n')
+	aFloat, err := strconv.ParseFloat(strings.TrimSpace(numInput), 64)
+	// deal with error object
+	if err != nil {
+		fmt.Println("\n---ERROR---")
+		fmt.Printf("Error type was: %T\n", err)
+		fmt.Println("Error msg: ", err)
+	} else {
+		fmt.Println("Your number was:", aFloat)
+	}
 }
