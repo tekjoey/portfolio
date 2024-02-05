@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 )
 
 const aConst int = 64
@@ -10,6 +12,7 @@ var outSide string = "this was crteated outside a function"
 
 func main() {
 	vars()
+	input()
 }
 
 func vars() {
@@ -45,4 +48,13 @@ func vars() {
 	// printing a constant and a var declared ouside this function
 	fmt.Println(outSide)
 	fmt.Println(aConst)
+}
+
+func input() {
+	reader := bufio.NewReader(os.Stdin)
+	// fmt.Print does not place a line feed at the end
+	fmt.Print("Enter text: ")
+	// using _ as a variable name creates a 'null' variable
+	input, _ := reader.ReadString('\n')
+	fmt.Println("You entered:", input)
 }
