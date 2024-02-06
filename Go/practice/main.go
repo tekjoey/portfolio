@@ -17,7 +17,7 @@ func main() {
 	sectionDelimiter("VARS")
 	vars()
 	sectionDelimiter("INPUTS")
-	//input()
+	input()
 	sectionDelimiter("MATH OPERATORS")
 	mathOperators()
 }
