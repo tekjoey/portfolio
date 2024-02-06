@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -16,7 +17,9 @@ func main() {
 	sectionDelimiter("VARS")
 	vars()
 	sectionDelimiter("INPUTS")
-	input()
+	//input()
+	sectionDelimiter("MATH OPERATORS")
+	mathOperators()
 }
 
 func sectionDelimiter(name string) {
@@ -79,4 +82,33 @@ func input() {
 	} else {
 		fmt.Println("Your number was:", aFloat)
 	}
+}
+
+func mathOperators() {
+	var add int = 1 + 5
+	var sub int = add - 1
+	var mult int = sub * 4
+	mult64 := float64(mult)
+	var div float64 = (mult64 / 6)
+	fmt.Println(div)
+
+	fmt.Println(math.SqrtPi)
+
+	var aFloat = math.Pi
+	var roundedFloat = math.Round(aFloat)
+	fmt.Printf("Original: %#v, Rounded: %v\n", aFloat, roundedFloat)
+
+	i1, i2, i3 := 12, 45, 68
+	intSum := i1 + i2 + i3
+	fmt.Println("Sum of integers:", intSum)
+
+	f1, f2, f3 := 23.5, 65.1, 76.3
+	floatSum := f1 + f2 + f3
+	fmt.Println("Float Sum (before rounding):", floatSum)
+	floatSum = math.Round(floatSum*10) / 10
+	fmt.Println("Float Sum (after rounding):", floatSum)
+
+	circleRadius := 15.5
+	circumfrance := 2 * math.Pi * circleRadius
+	fmt.Printf("Circumference: %.2f\n", circumfrance)
 }
