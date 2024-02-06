@@ -7,6 +7,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const aConst int = 64
@@ -17,9 +18,13 @@ func main() {
 	sectionDelimiter("VARS")
 	vars()
 	sectionDelimiter("INPUTS")
-	input()
+	//input()
 	sectionDelimiter("MATH OPERATORS")
 	mathOperators()
+	sectionDelimiter("TIME")
+	playWithTime()
+	sectionDelimiter("POINTERS % Arrays")
+	pointersAndArrays()
 }
 
 func sectionDelimiter(name string) {
@@ -111,4 +116,25 @@ func mathOperators() {
 	circleRadius := 15.5
 	circumfrance := 2 * math.Pi * circleRadius
 	fmt.Printf("Circumference: %.2f\n", circumfrance)
+
+}
+
+func playWithTime() {
+	now := time.Now()
+	fmt.Println(now)
+	//EST, _ := time.LoadLocation("America/New_York")
+	t := time.Date(1998, time.January, 10, 5, 0, 0, 0, time.UTC)
+	fmt.Println(t.Local().Format(time.RFC822))
+
+	t2 := time.Now()
+	var timeFormatString string = "Jan 2 Mon 2006 - This is some filler text - 04:05\n"
+	fmt.Print(t2.Format(timeFormatString))
+}
+
+func pointersAndArrays() {
+	var colors = [5]string{"red", "green", "blue"}
+	for i := 0; i < len(colors); i++ {
+		fmt.Println(colors[i])
+	}
+	fmt.Println(len(colors))
 }
