@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -24,7 +25,7 @@ func main() {
 	sectionDelimiter("TIME")
 	playWithTime()
 	sectionDelimiter("POINTERS % Arrays")
-	pointersAndArrays()
+	pointersArraysMaps()
 }
 
 func sectionDelimiter(name string) {
@@ -131,10 +132,60 @@ func playWithTime() {
 	fmt.Print(t2.Format(timeFormatString))
 }
 
-func pointersAndArrays() {
+func pointersArraysMaps() {
 	var colors = [5]string{"red", "green", "blue"}
 	for i := 0; i < len(colors); i++ {
 		fmt.Println(colors[i])
 	}
 	fmt.Println(len(colors))
+	// important note about arrays is that they have a static size.
+	// they can not be increased, or decreased.
+	// their values can be changed
+	// a better solution is to use slices, which is an abstraction of arrays
+
+	colorSlice := []string{"red", "green", "blue"}
+	fmt.Println(colorSlice)
+
+	colorSlice = append(colorSlice, "purple")
+	fmt.Println(colorSlice)
+
+	// can also use make() to "make" a new slice, and give it a maximum value
+
+	numbers := make([]int, 0, 10)
+	numbers = append(numbers, 1)
+	numbers[0] = 6
+	fmt.Println(numbers)
+	fmt.Println(len(numbers))
+
+	//Maps
+	states := make(map[string]string)
+	states["SC"] = "'South Carolina'"
+	states["PA"] = "Pennsylvania"
+	fmt.Println(states)
+
+	penna := states["PA"]
+	fmt.Println(penna)
+
+	fmt.Println(states)
+	states["NY"] = "New York"
+	fmt.Println(states)
+	states["CA"] = "California"
+	states["ID"] = "Idaho"
+	states["HI"] = "Hawaii"
+	// maps are unordered, so if i want to print them alphabetically...
+	//first i create a slice with the keys
+	fmt.Println("--START ALPHABETICAL SORT--")
+	stateKeys := []string{}
+	for k := range states {
+		stateKeys = append(stateKeys, k)
+	}
+
+	//then we sort the keys
+	sort.Strings(stateKeys)
+
+	// then we can iterate through those keys and print the map in alphabetical order
+	for i := range stateKeys {
+		fmt.Printf("%v -> %v\n", stateKeys[i], states[stateKeys[i]])
+	}
+
 }
