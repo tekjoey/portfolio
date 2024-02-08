@@ -188,29 +188,29 @@ func pointersArraysMaps() {
 		fmt.Printf("%v -> %v\n", stateKeys[i], states[stateKeys[i]])
 	}
 
-		// and now for some interative mapping!
-		aMap := make(map[string]map[string]int)
-		aSecondMap := make(map[string]int)
-		aThirdMap := make(map[string]int)
-	
-		aSecondMap["first2"] = 1
-		aSecondMap["second2"] = 2
-		aSecondMap["third2"] = 3
-		aSecondMap["fourth2"] = 4
-	
-		aThirdMap["first3"] = 1
-		aThirdMap["second3"] = 2
-		aThirdMap["third3"] = 3
-	
-		aMap["first"] = aSecondMap
-		aMap["second"] = aThirdMap
-	
-		fmt.Println("\n\n---Values in 'aMap'--")
-		for k0, v0 := range aMap {
-			fmt.Println("Key:", k0)
-			fmt.Println("Value:")
-			for k1, v1 := range v0 {
-				fmt.Printf("\tKey:%v, Value:%v\n\n", k1, v1)
-			}
+	// and now for some recursive mapping!
+	aMap := make(map[string]map[string]int)
+	aSecondMap := make(map[string]int)
+	aThirdMap := make(map[string]int)
+
+	aSecondMap["first2"] = 1
+	aSecondMap["second2"] = 2
+	aSecondMap["third2"] = 3
+	aSecondMap["fourth2"] = 4
+
+	aThirdMap["first3"] = 1
+	aThirdMap["second3"] = 2
+	aThirdMap["third3"] = 3
+
+	aMap["first"] = aSecondMap
+	aMap["second"] = aThirdMap
+
+	fmt.Println("\n\n---Values in 'aMap'--")
+	for k0, v0 := range aMap {
+		fmt.Println("Key:", k0)
+		fmt.Println("Value:")
+		for k1, v1 := range v0 {
+			fmt.Printf("\tKey:%v, Value:%v\n\n", k1, v1)
 		}
+	}
 }
