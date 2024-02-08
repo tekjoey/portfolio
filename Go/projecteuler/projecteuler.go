@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 )
 
 // Find the sum of all the multiples of 3 or 5 below 1000
@@ -37,9 +38,7 @@ func problemThree() int {
 	num := 600851475143
 	divisor := 2
 
-	// given number is odd, so we can skip dividing by two
-	// we can also increment i by two each time because all the even numbers are taken care of
-	for num > 1 {
+	for float64(num) > math.Sqrt(float64(num)) {
 		//fmt.Println("The current num is:", num)
 		//fmt.Println("The divisor is:", divisor)
 		if num%divisor == 0 {
@@ -50,7 +49,7 @@ func problemThree() int {
 
 	}
 	//fmt.Println(divisor)
-	return divisor
+	return divisor - 1
 }
 
 func main() {
