@@ -15,6 +15,46 @@ func problemOne() int {
 	return sum
 }
 
+// By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms.
+func problemTwo() int {
+	fibs := []int{1, 1}
+	last := 1
+	sum := 0
+	for last < 4000000 {
+		next := fibs[len(fibs)-1] + fibs[len(fibs)-2]
+		fibs[0] = last
+		fibs[1] = next
+		if next%2 == 0 {
+			sum += next
+		}
+		last = next
+	}
+	return sum
+}
+
+// What is the largest prime factor of the number 600851475143?
+func problemThree() int {
+	num := 600851475143
+	divisor := 2
+
+	// given number is odd, so we can skip dividing by two
+	// we can also increment i by two each time because all the even numbers are taken care of
+	for num > 1 {
+		//fmt.Println("The current num is:", num)
+		//fmt.Println("The divisor is:", divisor)
+		if num%divisor == 0 {
+			//fmt.Printf("%v / %v == 0\n", num, divisor)
+			num /= divisor
+		}
+		divisor++
+
+	}
+	//fmt.Println(divisor)
+	return divisor
+}
+
 func main() {
-	fmt.Println("The answer to problem 1 is: ", problemOne())
+	fmt.Println("The answer to problem 1 is:", problemOne())
+	fmt.Println("The answer to problem 2 is:", problemTwo())
+	fmt.Println("The answer to problem 3 is:", problemThree())
 }
