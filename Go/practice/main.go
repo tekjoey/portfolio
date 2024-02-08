@@ -213,4 +213,11 @@ func pointersArraysMaps() {
 			fmt.Printf("\tKey:%v, Value:%v\n\n", k1, v1)
 		}
 	}
+
+	// can i create a map with initial values?
+
+	aMapWithVals := map[string]string{"String1": "value1", "string2": "value2"}
+	fmt.Println(aMapWithVals)
+
+	//indeed i can!
 }
