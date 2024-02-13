@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"strconv"
 )
 
 // Find the sum of all the multiples of 3 or 5 below 1000
@@ -52,8 +53,29 @@ func problemThree() int {
 	return divisor - 1
 }
 
+// Find the largest palindrome made from the product of two 3-digit numbers.
+func problemFour() int {
+
+	var inte int = 1234554321
+	str0 := strconv.Itoa(inte)
+	halfLength := len(str0) / 2
+	str1 := str0[0:halfLength]
+	str2 := str0[halfLength:]
+
+	if str1 == str2 {
+		fmt.Println("true")
+		fmt.Println(str1, str2)
+	} else {
+		fmt.Println("false")
+		fmt.Println(str1, str2)
+	}
+
+	return 0
+}
+
 func main() {
 	fmt.Println("The answer to problem 1 is:", problemOne())
 	fmt.Println("The answer to problem 2 is:", problemTwo())
 	fmt.Println("The answer to problem 3 is:", problemThree())
+	problemFour()
 }
