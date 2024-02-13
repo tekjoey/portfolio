@@ -24,8 +24,10 @@ func main() {
 	mathOperators()
 	sectionDelimiter("TIME")
 	playWithTime()
-	sectionDelimiter("POINTERS % Arrays")
+	sectionDelimiter("POINTERS & Arrays")
 	pointersArraysMaps()
+	sectionDelimiter("STRUCTS")
+	structures()
 }
 
 func sectionDelimiter(name string) {
@@ -220,4 +222,25 @@ func pointersArraysMaps() {
 	fmt.Println(aMapWithVals)
 
 	//indeed i can!
+}
+
+// Dog is a struct representation of Mans Best Friend.
+// Only some values have been implemented. Dog is not ment to be cainine-complete.
+// I wonder Why it does not preserve the new-lines i have been typing.
+// I probobly need to use a multi-line comment for that, eh?
+type Dog struct {
+	Breed        string
+	Weight       int
+	_age         int
+	FavoriteFood string
+	Age          int
+}
+
+func structures() {
+	// structs are similar to classes, but without inheritance
+
+	poodle := Dog{"Poodle", 100, 10, "Steak", 10}
+
+	fmt.Println(poodle.Breed, poodle.Weight, poodle._age)
+
 }
