@@ -15,6 +15,31 @@ const aConst int = 64
 
 var outSide string = "this was crteated outside a function"
 
+func originalFunction() int {
+	fmt.Println("hello world for a reassigned function")
+	return 0
+}
+
+var reassignedFunction = originalFunction
+
+// structs and methods
+
+type Cat struct {
+	Lives int
+	Age   int
+}
+
+// Death is what happens when "Cat" looses a life
+func (c *Cat) Death() int {
+	c.Lives--
+	return c.Lives
+}
+
+func (c *Cat) Birthday() int {
+	c.Age++
+	return c.Age
+}
+
 func main() {
 	sectionDelimiter("VARS")
 	vars()
@@ -30,6 +55,17 @@ func main() {
 	structures()
 	sectionDelimiter("PROGRAM FLOW")
 	programFlow()
+	sectionDelimiter("FUNCTIONS")
+	reassignedFunction()
+	total, length := addAllValues(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+	fmt.Printf("The total sum is %v\nThe number of values was %v\n", total, length)
+	cat1 := Cat{9, 9}
+	fmt.Println("Lives before death", cat1.Lives)
+	catLives := cat1.Death()
+	fmt.Println("Lives after death", cat1.Lives, catLives)
+	fmt.Println("Age BEfore Birthday", cat1.Age)
+	catAge := cat1.Birthday()
+	fmt.Println("Age After Birthday", cat1.Age, catAge)
 }
 
 func sectionDelimiter(name string) {
@@ -317,10 +353,22 @@ reStart:
 		goto reStart
 	}
 theEnd:
-	fmt.Println(out)
-	fmt.Println("i assume this is still part of theEnd")
-	fmt.Println("i wonder if this is still part of theEnd#1")
-	fmt.Println("i wonder if this is still part of theEnd#2")
-	fmt.Println("i wonder this is still part of theEnd #3")
+	{
+		fmt.Println(out)
+		fmt.Println("i assume this is still part of theEnd")
+		fmt.Println("i wonder if this is still part of theEnd#1")
+		fmt.Println("i wonder if this is still part of theEnd#2")
+		fmt.Println("i wonder this is still part of theEnd #3")
+	}
+}
 
+// can have arbitrary number of input values.
+// 'values' is an array
+func addAllValues(values ...int) (int, int) {
+	var total int
+	for _, v := range values {
+		total += v
+	}
+
+	return total, len(values)
 }
