@@ -28,6 +28,8 @@ func main() {
 	pointersArraysMaps()
 	sectionDelimiter("STRUCTS")
 	structures()
+	sectionDelimiter("PROGRAM FLOW")
+	programFlow()
 }
 
 func sectionDelimiter(name string) {
@@ -242,5 +244,35 @@ func structures() {
 	poodle := Dog{"Poodle", 100, 10, "Steak", 10}
 
 	fmt.Println(poodle.Breed, poodle.Weight, poodle._age)
+
+}
+
+func programFlow() {
+	x := 42
+
+	if y := 42; x == y {
+		fmt.Println("They are equal")
+	} else {
+		fmt.Println("they are not equal")
+	}
+
+	// now for switch statements!
+
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Print("Do you want to learn Go?(y/n) ")
+	input, _ := reader.ReadString('\n')
+	fmt.Println("input equals:", input)
+
+	switch input {
+	case "y\n":
+		fmt.Println("Glad to hear it!")
+		//fallthrough
+	case "n\n":
+		fmt.Println("Then what are you doing here?")
+		//fallthrough
+	default:
+		fmt.Println("Umm, you didn't type the right letter..Try again!")
+
+	}
 
 }
