@@ -303,4 +303,24 @@ func programFlow() {
 		fmt.Printf("Index number %v in the color slice is: %v\n", index, color)
 	}
 
+	//additionally, go has goto statements, which is a pretty cool thing
+	// i feel like i'm writing assembly 👨‍💻
+
+	var out int
+	j := 0
+reStart:
+	out = j*j + out
+	if out > 12 {
+		goto theEnd
+	} else {
+		j++
+		goto reStart
+	}
+theEnd:
+	fmt.Println(out)
+	fmt.Println("i assume this is still part of theEnd")
+	fmt.Println("i wonder if this is still part of theEnd#1")
+	fmt.Println("i wonder if this is still part of theEnd#2")
+	fmt.Println("i wonder this is still part of theEnd #3")
+
 }
