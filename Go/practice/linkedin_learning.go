@@ -1,3 +1,5 @@
+// Most of the work in this file came from the LinkedIn Learning series "Learning Go" by David Gassner
+
 package main
 
 import (
