@@ -2,8 +2,12 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"math"
+	"net/http"
 	"os"
 	"sort"
 	"strconv"
@@ -66,6 +70,15 @@ func main() {
 	fmt.Println("Age BEfore Birthday", cat1.Age)
 	catAge := cat1.Birthday()
 	fmt.Println("Age After Birthday", cat1.Age, catAge)
+	sectionDelimiter("Files")
+	writeToFile("Text to be written from Go", "./text.txt")
+	//defer fmt.Println(readFromFile("./text.txt"))
+	sectionDelimiter("Network requests")
+	postsJSON := networkRequests()
+	posts := decodeJSON(postsJSON)
+	for _, post := range posts {
+		fmt.Printf("User %v posted an article titled [%v]\n", post.UserID, post.Title)
+	}
 }
 
 func sectionDelimiter(name string) {
@@ -371,4 +384,65 @@ func addAllValues(values ...int) (int, int) {
 	}
 
 	return total, len(values)
+}
+
+func fileError(err error) {
+	if err != nil {
+		panic(err)
+	}
+}
+
+func writeToFile(text string, location string) int {
+	// first create a file reference
+	file, err := os.Create(location)
+	fileError(err)
+	// Then write text to file
+	length, err := io.WriteString(file, text)
+	fileError(err)
+	fmt.Println("File written to ", location)
+	// make sure you close the file at the end!
+	defer file.Close()
+	return length
+}
+
+func readFromFile(fileName string) string {
+	data, err := ioutil.ReadFile(fileName)
+	fileError(err)
+	fmt.Println("Read text from", fileName)
+	return string(data)
+}
+
+func networkRequests() string {
+	url := "https://jsonplaceholder.typicode.com/posts"
+	resp, err := http.Get(url)
+	fileError(err)
+	fmt.Printf("Response type: %T\n", resp)
+	defer resp.Body.Close()
+
+	bytes, err := ioutil.ReadAll(resp.Body)
+	fileError(err)
+
+	content := string(bytes)
+	// fmt.Print(content)
+	return content
+}
+
+type Post struct {
+	UserID, ID  int
+	Title, Body string
+}
+
+func decodeJSON(content string) []Post {
+	posts := make([]Post, 0, 20)
+	decoder := json.NewDecoder(strings.NewReader(content))
+	//fmt.Printf("%T\n", decoder)
+	_, err := decoder.Token()
+	fileError(err)
+	var post Post
+	for decoder.More() {
+		err := decoder.Decode(&post)
+		fileError(err)
+		posts = append(posts, post)
+	}
+	return posts
 }
