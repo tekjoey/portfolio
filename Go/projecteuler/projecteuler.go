@@ -56,26 +56,58 @@ func problemThree() int {
 // Find the largest palindrome made from the product of two 3-digit numbers.
 func problemFour() int {
 
-	var inte int = 1234554321
-	str0 := strconv.Itoa(inte)
-	halfLength := len(str0) / 2
-	str1 := str0[0:halfLength]
-	str2 := str0[halfLength:]
+	// A helper function to [det]ermine if a number is a [pal]endrome
+	detPal := func(inte int) bool {
+		str0 := strconv.Itoa(inte)
 
-	if str1 == str2 {
-		fmt.Println("true")
-		fmt.Println(str1, str2)
-	} else {
-		fmt.Println("false")
-		fmt.Println(str1, str2)
+		// Refactor to optimize
+		// for i := 0; i < len(str0); i++ {
+		// 	if st0[i]!= str0[len(str0)]
+		// }
+
+		halfLength := len(str0) / 2
+		str1 := str0[0:halfLength]
+
+		// If length is odd, dont need to include the middle digit.
+		var str2 string
+		if len(str0)%2 == 0 {
+			str2 = str0[halfLength:]
+		} else {
+			str2 = str0[halfLength+1:]
+		}
+
+		// reverse the strings
+		str2RevRune := []rune(str2)
+		for i, j := 0, len(str2RevRune)-1; i < j; i, j = i+1, j-1 {
+			str2RevRune[i], str2RevRune[j] = str2RevRune[j], str2RevRune[i]
+		}
+		str3 := string(str2RevRune)
+
+		if str1 == str3 {
+			return true
+		} else {
+			return false
+		}
 	}
 
-	return 0
+	var highest int
+	for i := 100; i <= 999; i++ {
+		for j := 100; j <= 999; j++ {
+			product := i * j
+			if detPal(product) {
+				if product > highest {
+					highest = product
+				}
+
+			}
+		}
+	}
+	return highest
 }
 
 func main() {
 	fmt.Println("The answer to problem 1 is:", problemOne())
 	fmt.Println("The answer to problem 2 is:", problemTwo())
 	fmt.Println("The answer to problem 3 is:", problemThree())
-	problemFour()
+	fmt.Println("The answer to problem 4 is:", problemFour())
 }
