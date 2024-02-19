@@ -258,11 +258,13 @@ func programFlow() {
 
 	// now for switch statements!
 
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Print("Do you want to learn Go?(y/n) ")
-	input, _ := reader.ReadString('\n')
-	fmt.Println("input equals:", input)
+	// commented out so it doesnt run everytime
+	// reader := bufio.NewReader(os.Stdin)
+	// fmt.Print("Do you want to learn Go?(y/n) ")
+	// input, _ := reader.ReadString('\n')
+	// fmt.Println("input equals:", input)
 
+	input := "y"
 	switch input {
 	case "y\n":
 		fmt.Println("Glad to hear it!")
@@ -273,6 +275,32 @@ func programFlow() {
 	default:
 		fmt.Println("Umm, you didn't type the right letter..Try again!")
 
+	}
+
+	// and now for 'for' statements.
+	// we have already seen some 'for' statements, but GO has a few tricks
+	// Go has no 'while' loop, but 'for' can be used in its place
+
+	colors := []string{"Red", "Green", "Blue", "Yellow", "Green", "Purple"}
+
+	//typical C-style for loop
+	fmt.Println("---C-Style FOR LOOP---")
+	for i := 0; i < len(colors); i++ {
+		fmt.Println(colors[i])
+	}
+
+	// can skip the index assigment/comparison/incrementation steps by just using 'range' keyword
+	// very similar to Pythons "for i in colors"
+	// also note that 'range' is a keyword, not a function (as it is in python)
+	fmt.Println("---C-Style FOR LOOP Using 'range'---")
+	for i := range colors {
+		fmt.Println(colors[i])
+	}
+
+	// not sure if it's actually called 'direct assignment', but that phrase makes sense for me.
+	fmt.Println("---direct assignment using 'range'---")
+	for index, color := range colors {
+		fmt.Printf("Index number %v in the color slice is: %v\n", index, color)
 	}
 
 }
