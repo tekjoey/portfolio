@@ -1,0 +1,7 @@
+---
+# setup 'server' group as nginx webservers, and also install common packages
+- hosts: server
+  become: yes
+  roles:
+    - "nginx"
+    - "common"

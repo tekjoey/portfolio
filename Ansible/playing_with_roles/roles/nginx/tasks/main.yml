@@ -1,0 +1,17 @@
+# nginx role; tasks; main.yml
+---
+- include_tasks: "debian.yml"
+  when: "ansible_os_family =='Debian'"
+- include_tasks: "rhel.yml"
+  when: "ansible_os_family =='RedHat'"
+- name: "ensure nginx is started"
+  service:
+    name: nginx
+    state: started
+
+- name: "fake config update"
+  file:
+    path: "nginx.conf"
+    state: touch
+  notify:
+    - "restart nginx"
