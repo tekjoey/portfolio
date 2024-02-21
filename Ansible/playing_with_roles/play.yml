@@ -3,5 +3,6 @@
 - hosts: server
   become: yes
   roles:
+    - common
     - "nginx"
-    - "common"
+    
