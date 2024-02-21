@@ -1,0 +1,41 @@
+---
+# A playbook for installing and configuring "figurine" on host computers
+
+- hosts: all
+  become: true
+  tasks:
+   - name: "add bin folder"
+     file:
+       path: /usr/local/bin
+       state: directory
+   - name: "create tmp folder"
+     file:
+       path: /home/tekjoey/tmp
+       state: directory
+   - name: "download archive to tmp folder"
+     get_url:
+       url: "https://github.com/arsham/figurine/releases/download/v1.3.0/figurine_linux_amd64_v1.3.0.tar.gz"
+       dest: /home/tekjoey/tmp
+   - name: "extract archive"
+     unarchive:
+       src: /home/tekjoey/tmp/figurine_linux_amd64_v1.3.0.tar.gz
+       dest: /home/tekjoey/tmp/
+       remote_src: true
+   - name: "check if /usr/local/bin/figurine exists"
+     stat:
+       path: /usr/local/bin/figurine
+     register: figurine_path
+   - name: "move binary to /usr/local/bin"
+     file:
+       path: /usr/local/bin/figurine
+       src: /home/tekjoey/tmp/deploy/figurine
+       state: hard
+     when: figurine_path.stat.islink is not defined
+   - name: "remove tmp diectory"
+     file:
+       path: /home/tekjoey/tmp
+       state: absent
+   - name: "place figurine script in /etc/profile.d/"
+     copy:
+        src: ./figurine.sh
+        dest: /etc/profile.d/figurine.sh
