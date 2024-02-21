@@ -3,3 +3,19 @@
   apt: 
     name: nginx
     state: latest
+- name: "ensure nginx is started"
+  service:
+    name: nginx
+    state: started
+
+- name: "update config file"
+  template:
+    src: "nginx.conf.j2"
+    dest: "/etc/nginx/sites-available/{{ nginx_server_name }}"
+- name: "enable config file"
+  file:
+    src: "/etc/nginx/sites-available/{{ nginx_server_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ nginx_server_name }}"
+    state: link
+  notify:
+    - "restart nginx"
