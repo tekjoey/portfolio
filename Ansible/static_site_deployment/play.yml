@@ -1,0 +1,41 @@
+---
+# Deploy static site using Ansible & NGINX
+
+- hosts: node1
+  become: yes
+  tasks:
+    - name: "install nginx"
+      apt:
+        name: nginx
+        state: latest
+
+    - name: "start nginx"
+      service:
+        name: nginx
+        state: started
+
+    - name: "transfer project folder"
+      ansible.builtin.synchronize:
+        src: ./websitefolder
+        dest: /var/www
+
+    - name: "add NGINX config file"
+      ansible.builtin.synchronize:
+        src: ./website.nginx.conf
+        dest: /etc/nginx/sites-available/website
+    
+    - name: "enable new configuration"
+      file:
+        src: /etc/nginx/sites-available/website
+        dest: /etc/nginx/sites-enabled/website
+        state: link
+
+    - name: "deactivate default NGINX site"
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
