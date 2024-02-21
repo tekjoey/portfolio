@@ -1,0 +1,23 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: "enable passwordless sudo"
+      copy:
+        content: "%sudo ALL=(ALL) NOPASSWD: ALL"
+        dest: /etc/sudoers.d/sudo_group_nopass
+        force: no
+
+    - name: Update package manager
+      apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Install common packages
+      apt:
+        name: "{{ item}}"
+        state: present
+      with_items:
+      - nano
+      - rsync
+      - git
