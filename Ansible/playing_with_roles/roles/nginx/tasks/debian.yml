@@ -8,6 +8,11 @@
     name: nginx
     state: started
 
+- name: "add project directory with static files"
+  synchronize:
+    src: "devpro" # could also use {{ nginx_servcer_name }}
+    dest: "/var/www/"
+
 - name: "update config file"
   template:
     src: "nginx.conf.j2"
