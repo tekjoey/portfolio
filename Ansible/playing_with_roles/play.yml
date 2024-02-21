@@ -2,6 +2,13 @@
 # setup 'server' group as nginx webservers, and also install common packages
 - hosts: server
   become: yes
+  # vars_prompt:
+  #   - name: "nginx_http_port"
+  #     prompt: "Which port: "
+  #     private: no
+  #   - name: "nginx_server_name"
+  #     prompt: "Server name? "
+  #     private: no
   roles:
     - common
     - "nginx"
