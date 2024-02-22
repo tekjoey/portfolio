@@ -1,6 +1,9 @@
 ---
 # Deploy static site using Ansible & NGINX
 
+# This playbook is a proof of concept. Values are hard coded...
+# ...and it is very ridged; can't handle many other possible situations.
+
 - hosts: node1
   become: yes
   tasks:
