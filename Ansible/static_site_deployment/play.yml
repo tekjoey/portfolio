@@ -1,0 +1,59 @@
+---
+# Playbook to dynamically setup static site deployment
+
+- hosts: node2
+  become: yes
+  vars_prompt:
+    - name: project_name
+      prompt: "What is the directory  you wish to copy?"
+      private: no
+    - name: project_http_port
+      prompt: "Which port do you wish to serve on?"
+      private: no
+      default: "80"
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+  tasks:
+    - name: install nginx
+      apt:
+        name: nginx
+        state: latest
+
+    - name: ensure nginx is started
+      service:
+        name: nginx
+        state: started
+
+    - name: transfer project folder
+      ansible.builtin.synchronize:
+        src: "./{{ project_name }}"
+        dest: /var/www
+
+    - name: add nginx config file
+      ansible.builtin.template:
+        src: ./nginx.config.j2
+        dest: "/etc/nginx/sites-available/{{ project_name }}"
+      notify:
+        - "restart nginx"
+
+    - name: "enable new configuration"
+      file:
+        src: "/etc/nginx/sites-available/{{ project_name }}"
+        dest: "/etc/nginx/sites-enabled/{{ project_name }}"
+        state: link
+      notify:
+        - "restart nginx"
+
+    - name: "deactivate default NGINX site"
+      ansible.builtin.file:
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+      notify:
+        - "restart nginx"
+
+## Additional logic/variables could be added if multiple sites have been enabled.
+## The playbook could ask the user which sites they want to remain enabled.
+## Alternatively, the playbook could use an additional vars file. Perhaps a main playbook with multiple includes for the various tasks...
