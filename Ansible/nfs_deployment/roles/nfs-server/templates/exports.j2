@@ -1,0 +1,3 @@
+{% for client in client_host_ip %}
+/share  {{client}}(rw,sync,no_root_squash,no_subtree_check)
+{% endfor %}

@@ -1,0 +1,17 @@
+---
+- name: "ensure nfs-common is installed"
+  apt:
+    name: nfs-common
+    state: latest
+
+- name: "ensure share directory is present"
+  file:
+    path: /mnt/nfs-share
+    state: directory
+
+- name: "mount nfs share"
+  mount:
+    path: /mnt/nfs-share
+    src: "192.168.100.108:/share"
+    fstype: nfs
+    state: mounted

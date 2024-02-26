@@ -1,0 +1,10 @@
+---
+- hosts: server
+  become: yes
+  roles:
+    - nfs-server
+
+- hosts: clients
+  become: yes
+  roles: 
+    - nfs-client
