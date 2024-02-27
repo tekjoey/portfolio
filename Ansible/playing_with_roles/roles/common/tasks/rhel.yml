@@ -1,9 +1,0 @@
----
-- name: "Install common packages"
-  yum:
-    name: "{{item}}"
-    state: latest
-  with_items:
-  - git
-  - zsh
-  - nano
