@@ -2,9 +2,9 @@
 # Seriously, this is not a production application. I'm just using it to learn about sockets, etc.
 # Inspired by Coding a Web Server in 25 Lines - Computerphile -> https://www.youtube.com/watch?v=7GBlCinu9yg
 
-import socket
+import socket, pathlib
 
-base_path = '/home/tekjoey/portfolio/Python/projects/httpy/www'
+base_path = pathlib.Path(__file__).parent / 'www'
 
 binary_file_types = ['ico', 'png', 'jpg', 'jpeg']
 
@@ -70,8 +70,10 @@ def main():
                                 conn.send('\r\n'.encode("utf-8")) # to separate headers from body
                                 conn.send(response_content.encode("utf-8"))
             except KeyboardInterrupt:
-                conn.close()
+                ConnectionAbortedError
                 s.close()
+                break
+                
 
 def parse_headers(data: str) -> dict:
     headers = {}
@@ -87,7 +89,7 @@ def parse_headers(data: str) -> dict:
         headers[ls[0]] = ls[1]
 
         
-        # headers[field] = option
+    # headers[field] = option
     return headers
 
 if __name__ == "__main__":
