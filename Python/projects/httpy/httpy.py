@@ -28,7 +28,7 @@ def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(host)
         s.listen(5)
-        print(f"Lisytening on port {listen_port}")
+        print(f"Listening on port {listen_port}")
         while True:
             try:
                 conn, addr = s.accept()
@@ -44,6 +44,7 @@ def main():
                         print(f"trying to open {location}")
                         
                         match location_file_type:
+                            # TODO: Implement conn.sendfile()
                             case binary if binary in binary_file_types:
                                 print("Location is binary file type")
                                 try:
@@ -70,8 +71,10 @@ def main():
                                 conn.send('\r\n'.encode("utf-8")) # to separate headers from body
                                 conn.send(response_content.encode("utf-8"))
             except KeyboardInterrupt:
+                print("\nKeyboard Interupt.\nShutting down server...")
                 ConnectionAbortedError
                 s.close()
+                print("Server successfully shut down.")
                 break
                 
 
@@ -91,6 +94,12 @@ def parse_headers(data: str) -> dict:
         
     # headers[field] = option
     return headers
+
+
+
+def get():
+    pass
+    # TODO: refactor main() to remove elements of get() and place here.
 
 if __name__ == "__main__":
     main()
