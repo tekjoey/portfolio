@@ -1,0 +1,6 @@
+[submodule "Python/projects/tftpy"]
+	path = Python/projects/tftpy
+	url = https://mailbox-jm192-admin@bitbucket.org/mailbox-jm192/tftpy.git
+[submodule "Python/projects/httpy"]
+	path = Python/projects/httpy
+	url = https://mailbox-jm192-admin@bitbucket.org/mailbox-jm192/httpy.git
