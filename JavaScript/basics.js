@@ -89,17 +89,17 @@ const [ffirst, ssecond, ...others] = nums
 //const [...oothers, penultimate, ultimate] = nums
 // I am correct: "Rest element must be last element"
 
-console.log(first, second)
-console.log(ffirst, ssecond, others)
+// console.log(first, second)
+// console.log(ffirst, ssecond, others)
 
-const [ , , third, ...ooothers] = nums
-console.log(third, ooothers)
+// const [ , , third, ...ooothers] = nums
+// console.log(third, ooothers)
 
-// check if item in array
-console.log(ooothers.includes(1)) //returns false
-console.log(nums.includes(1)) // returns true
-// can also use .includes() to search a sub set of an array
-console.log(nums.includes(1, 3))
+// // check if item in array
+// console.log(ooothers.includes(1)) //returns false
+// console.log(nums.includes(1)) // returns true
+// // can also use .includes() to search a sub set of an array
+// console.log(nums.includes(1, 3))
 
 // conditionals
 
@@ -132,7 +132,7 @@ switch (javascript) {
         console.log("You're indecisive!")
 }
 
-javascript = 'not cool';
+javascript = 'cool';
 
 // the almighty ternery operator!
 (javascript === "is cool") ? console.log("Ternery: You're right!") : console.log("Ternery: You're wrong")
@@ -140,7 +140,7 @@ javascript = 'not cool';
 //loops
 for (let index = 0; index < fruits3.length; index++) {
     const element = fruits3[index];
-    console.log(`An item from the list: ${element}`)    
+    //console.log(`An item from the list: ${element}`)    
 }
 
 i = 0
@@ -149,15 +149,15 @@ do {
     if (i === 42) break
 } while (i<100)
 
-console.log(i)
+//console.log(i)
 
 while (i<200){
     i++
     if (i===150) {
-        console.log("I equals 150")
+        //console.log("I equals 150")
         continue //continue skips the following code and 'continues' to the next loop element
     }
-    console.log(i)
+    //console.log(i)
 }
 
 
@@ -166,17 +166,83 @@ const obj1 = {name: 'john', sex: 'male'}
 
 //for...of is for interable types
 for (const letter of "hello world") {
-    console.log(letter)
+    //console.log(letter)
 }
 const stri = "world"
 for (const letter of `hi ${stri}`) {
-    console.log(letter)
+    //console.log(letter)
 }
 
 // for...in is similar, but also for objects.
 for (let item in obj1) {
-    console.log(obj1[item])
+    //console.log(obj1[item])
 }
+
+//functions
+function firstFunction(age=16) {
+    const yearsTill21 = 21 - age
+    if (yearsTill21 > 0) {
+        return `You have ${yearsTill21} years left`
+    } else {
+        return "You are twenty one or older, go party!"
+    }
+}
+
+// console.log(firstFunction())
+
+
+function returnEarly(condition) {
+    if (condition) return
+
+    const returnary = []
+    const unimportant = 1
+    const unimport = 2
+    let booring = unimport + unimport
+    while (booring < 10) {
+        returnary.push(booring)
+        booring++
+    }
+    return [booring, returnary, 1]
+    //return booring, returnary, 1 // this would result in only returning the last value.
+}
+
+const [rtrn1, rtrn2, rtrn3] = returnEarly()
+
+console.log(rtrn1, rtrn2, rtrn3)
+
+//arrow functions
+/*
+Arrow functions transform
+
+function name() {
+    doStuff()
+}
+
+to
+
+() => {
+    doStuff()
+}
+
+they are unnamed (anonymous) functions.
+
+*/
+
+function regular(param) {
+    return param
+}
+
+const arrowFunc = () => {
+    return
+}
+
+const arrow2func = param => param+1
+console.log(arrow2func(2))
+
+const add = (num1, num2) => num1+num2
+
+const num3 = add(6,5)
+console.log(num3)
 
 
 
