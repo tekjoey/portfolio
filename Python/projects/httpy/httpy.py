@@ -7,7 +7,7 @@
 # 2) To learn about pushing to seperate remotes
 # 3) to learn about using Atlasian products. This project has been pushed to a Bitbucket instance, and I (sorta) use Jira et all to track the tasks for this project.
 
-import socket, pathlib
+import socket, pathlib, argparse
 
 base_path = pathlib.Path(__file__).parent / 'www'
 
@@ -27,13 +27,20 @@ response_404 = """
 </html>"""
 
 def main():
-    listen_address = ""
-    listen_port = 8080
+    parser = argparse.ArgumentParser(description='A terrible web server written in Python')
+    parser.add_argument('-p', '--port', metavar='port', type=int, help='The port to serve the webserver on. Default to 8080', default=8080)
+    parser.add_argument('-i', '--interface', metavar='interface', help="The interface for web server to listen on. Default is to bind to all interfaces.", default='')
+    args = vars(parser.parse_args())
+    
+    listen_port = args['port']
+    listen_address = args['interface']
+    
     host = (listen_address, listen_port)
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind(host)
         s.listen(5)
-        print(f"Lisytening on port {listen_port}")
+        print(f"Listening on port {listen_port}")
+        print(f"Listening on {'all interfaces' if listen_address == '' else f'interface {listen_address}'}")
         while True:
             try:
                 conn, addr = s.accept()
