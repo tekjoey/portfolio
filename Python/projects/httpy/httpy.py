@@ -29,8 +29,9 @@ file_types = {
 } | binary_files
 
 response_404 = (
-    f'{http_version} 404  Not Found{CRLF}',     #⬅️ Headers
-                                                #⬇️ HTML Response Body; TODO, make this an actual HTML file
+    404,
+    {"Content-Type": 'text/html'},   
+                                                        #⬇️ HTML Response Body; TODO, make this an actual HTML file
     """
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +43,7 @@ response_404 = (
 <body>
     404 Page Not Found
 </body>
-</html>"""
+</html>""".encode('utf-8')
 )
 
 def main():
@@ -72,7 +73,8 @@ def main():
                     data = conn.recv(1024).decode("utf-8")
                     receive_headers = parse_headers(data)
                     if receive_headers['verb'] == "GET":
-                        response_headers, response_content = get(receive_headers)
+                        status_code, response_headers, response_content = get(receive_headers)
+                        response_headers = generate_headers(response_headers, status_code)
                         conn.send(response_headers.encode("utf-8"))
                         print("sent headers")
                         conn.send(CRLF.encode("utf-8")) # to separate headers from body
@@ -104,14 +106,31 @@ def parse_headers(data: str) -> dict:
     print(headers)
     return headers
 
-def get(recieve_headers:dict):
-    header_date = "Date: " + datetime.datetime.strftime(datetime.datetime.now(datetime.UTC), '%a, %d %b %Y %H:%M:%S GMT')
-    header_server = "Server: HTTPY/0.1"
-    
+def generate_headers(response_headders:dict, status_code:int) -> str:
+    response_codes = {
+        200: "OK",
+        404: "Not Found",
+        400: "Bad Request"
+    }
+
+    default_headers = dict(
+        Server = "HTTPY/0.1",
+        Content_Language = "en-US",
+        Date = datetime.datetime.strftime(datetime.datetime.now(datetime.UTC), '%a, %d %b %Y %H:%M:%S GMT')
+    )
+
+    headers_dict = default_headers | response_headders
+    headers_str = f"{http_version} {status_code} {response_codes[status_code]}{CRLF}"
+    for header in headers_dict:
+        headers_str += f'{header}: {headers_dict[header]}{CRLF}'
+
+    return headers_str
+
+def get(recieve_headers:dict):    
     # HTTP 1.1 requires servers to reject clients who do not use the Host header field
     if recieve_headers['http version'] == 'HTTP/1.1' and "Host" not in recieve_headers.keys():
         print(recieve_headers)
-        return f'{http_version} 400 Bad Request{CRLF}{header_date}{CRLF}{header_server}{CRLF}Content-Type: text/html{CRLF}Content-Language: en-US{CRLF}', """
+        return 400, {"Content-Type": 'text/html'}, """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,12 +164,9 @@ def get(recieve_headers:dict):
     if location_file_type not in binary_files:
         response_content = response_content.decode('utf-8').encode('utf-8')
 
-    header_status = f"{http_version} 200 OK"
-    header_content_type = "Content-Type: " + file_types[location_file_type]
-    #header_content_length = f"Content-Length: {str(content_size + 101)} B"
-    header = f'{header_status}{CRLF}{header_date}{CRLF}{header_server}{CRLF}{header_content_type}{CRLF}Content-Language: en-US{CRLF}'#{header_content_length}'
-
-    return header, response_content
+    status_code = 200
+    response_header = {"Content-Type": file_types[location_file_type]}
+    return status_code, response_header, response_content
 
 if __name__ == "__main__":
     main()
