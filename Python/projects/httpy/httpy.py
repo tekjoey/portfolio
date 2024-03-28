@@ -13,7 +13,7 @@ base_path = pathlib.Path(__file__).parent / 'www'
 CRLF = '\r\n'       # Carriage return & line feed
 LWS = f'{CRLF} '    # Linear white space
 
-http_version = "HTTP/1.1"
+http_version = "HTTP/1.0"
 
 binary_files = {
     '.ico': 'image/vnd.microsoft.icon',
