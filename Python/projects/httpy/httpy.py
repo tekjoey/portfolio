@@ -122,7 +122,7 @@ def generate_headers(response_headders:dict, status_code:int) -> str:
     headers_dict = default_headers | response_headders
     headers_str = f"{http_version} {status_code} {response_codes[status_code]}{CRLF}"
     for header in headers_dict:
-        headers_str += f'{header}: {headers_dict[header]}{CRLF}'
+        headers_str += f'{header.replace("_", "-")}: {headers_dict[header]}{CRLF}'
 
     return headers_str
 
