@@ -91,9 +91,9 @@ def parse_headers(data: str) -> dict:
     print(data)
     headers = {}
     list_version = data.split("\r\n")
-    verb, location, http = list_version[0].split(" ")
+    verb, resource, http = list_version[0].split(" ")
     headers['verb'] = verb
-    headers['location'] = location
+    headers['resource'] = resource
     headers["http version"] = http
     for option in list_version[1:]:
         if option == '':
@@ -145,27 +145,27 @@ def get(recieve_headers:dict):
 """.encode('utf-8')
 
     # HTTP1.1 requires servers to be able to manage full URLs, not just pathnames
-    url = urlparse(recieve_headers['location'])
-    location = "index.html" if url.path == '/' else url.path[1:]
-    location_file_type = pathlib.Path(location).suffixes[-1]
+    url = urlparse(recieve_headers['resource'])
+    resource = "index.html" if url.path == '/' else url.path[1:]
+    resource_file_type = pathlib.Path(resource).suffixes[-1]
     
-    print(f"Location is {location}")
-    print(f"Trying to open {location}")
+    print(f"resource is {resource}")
+    print(f"Trying to open {resource}")
 
     try:
-        with open(f"{base_path}/{location}", 'rb') as f:
-            print(f"Successfully opened {location}")
+        with open(f"{base_path}/{resource}", 'rb') as f:
+            print(f"Successfully opened {resource}")
             response_content = f.read()
-            content_size = pathlib.Path(base_path/ location).stat().st_size
+            content_size = pathlib.Path(base_path / resource).stat().st_size
     except FileNotFoundError:
-        print(f"'{location}' not found, using 404 default instead")
+        print(f"'{resource}' not found, using 404 default instead")
         return response_404
     
-    if location_file_type not in binary_files:
+    if resource_file_type not in binary_files:
         response_content = response_content.decode('utf-8').encode('utf-8')
 
     status_code = 200
-    response_header = {"Content-Type": file_types[location_file_type]}
+    response_header = {"Content-Type": file_types[resource_file_type], "Content-Length": content_size}
     return status_code, response_header, response_content
 
 if __name__ == "__main__":
