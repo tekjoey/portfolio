@@ -238,11 +238,43 @@ const arrowFunc = () => {
 
 const arrow2func = param => param+1
 console.log(arrow2func(2))
+// This just prints '[Function (anonymous)]', so it looks like the function needs to be invoked
+console.log (((parm2) => parm2+5))
+
+// It does need to be invoked! This does work!
+console.log (((parm2) => parm2+5)(5))
 
 const add = (num1, num2) => num1+num2
 
 const num3 = add(6,5)
 console.log(num3)
+
+// Immediately invoked functions, NEED the semi-colon
+;(function(parm3) {parm3+157})(3)
+; const state = ((parm4) => {
+    // just adding complexity to prove that it can be a 'real' functions, not just a one liner
+    const states = {'PA':"pennsylvania", 'SC': "south carolinas"}
+    for (const state in states) {
+        if (parm4 == state) {
+            return states[state]
+        }
+    }
+})('SC')
+
+// This will print 'south carolinas
+console.log(state)
+
+// what will this print?
+//console.log(state('PA'))
+// 'state' is not a function, makese sense. The anonymous function is gone, and it's output (a string) was saved to the variable 'state'
+
+// functions can be recursive
+function factorial(n) {
+    return n >= 1 ? n * factorial(n-1) : 1
+}
+
+console.log(factorial(10))
+
 
 
 
